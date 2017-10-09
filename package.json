@@ -1,4 +1,7 @@
 {
+  "engines": {
+    "node": "8.4.0"
+  },
   "name": "charity-choice",
   "version": "0.0.1",
   "description": "Charity Choice app, 401 project",
