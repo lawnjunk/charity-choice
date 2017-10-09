@@ -1,65 +1,33 @@
 'use strict';
 
 const faker = require('faker');
-const Charity = require('../model/charity.js');
+const Charity = require('../../model/charity.js');
 
 let create = () => {
-  let result = {};
+  // let result = {};
   return new Charity({
-    name: faker.company.companyName(),
-    streetAdd: faker.addres.streetAddress(),
+    name: faker.lorem.words(10),
+    streetAdd: faker.address.streetAddress(),
     city: faker.address.city(),
     state: faker.address.state(),
     zip: faker.address.zipCode(),
     mission: faker.lorem.words(30),
-    cause: faker.lorem.words(1),
+    cause: faker.lorem.words(10),
     rating: faker.random.number(),
     websiteURL: faker.internet.url(),
-    photoURL: faker.image.imageURL(),
-    keywords: [faker.lorem.words(1)],
-    category: faker.lorem.words(1),
+    photoURL: faker.image.imageUrl(),
+    keywords: [faker.lorem.words(10)],
+    category: faker.lorem.words(10),
     phoneNumber: faker.phone.phoneNumber(),
     email: faker.internet.email(),
     created: faker.date.past(),
-  }).save()
-  .then(charity => {
-    result.charity = charity;
-    return result;
-  });
+  }).save();
 };
 
 let createMany = (num) => {
-  let result = {};
-  return Promise.all(new Array(num).fill(0)
-    .map(() => {
-      return new Charity({
-        name: faker.company.companyName(),
-        streetAdd: faker.addres.streetAddress(),
-        city: faker.address.city(),
-        state: faker.address.state(),
-        zip: faker.address.zipCode(),
-        mission: faker.lorem.words(30),
-        cause: faker.lorem.words(1),
-        rating: faker.random.number(),
-        websiteURL: faker.internet.url(),
-        photoURL: faker.image.imageURL(),
-        keywords: [faker.lorem.words(1)],
-        category: faker.lorem.words(1),
-        phoneNumber: faker.phone.phoneNumber(),
-        email: faker.internet.email(),
-        created: faker.date.past(),
-      })
-      .save();
-    })
-    .then(charities => {
-      result.charities = charities;
-      return result;
-    })
-  );
+  return Promise.all(new Array(num).fill(0).map(() => create()));
 };
 
-let remove = () => Promise.all([
-  Charity.remove({}),
-]);
+let remove = () => Charity.remove({});
 
 module.exports = {create, createMany, remove};
