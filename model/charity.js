@@ -1,7 +1,6 @@
 'use strict';
 
 const mongoose = require('mongoose');
-const httpErrors = require('http-errors');
 
 const charitySchema = mongoose.Schema({
   name: {type: String, required: true, unique: true},
@@ -20,3 +19,5 @@ const charitySchema = mongoose.Schema({
   email: {type: String, required: true},
   created: {type: Date, default: () => new Date()},
 });
+
+const Charity = module.exports = mongoose.model('charity', charitySchema);
