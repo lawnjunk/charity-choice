@@ -22,7 +22,7 @@ describe('/charities', () => {
         .then(mock => {
           tempAccount = mock;
           return charityMock.createMany(1000)
-            .then(tempCharities => {
+            .then(() => {
               return superagent.get(`${apiURL}/charities`)
                 .set('Authorization', `Bearer ${tempAccount.token}`);
             })
@@ -73,14 +73,12 @@ describe('/charities', () => {
 
     test('404', () => {
       let tempAccount;
-      let newCharity;
       let mockPassword = faker.internet.password();
       return accountMock.create(mockPassword)
         .then(mock => {
           tempAccount = mock;
           return charityMock.create()
-            .then(tempCharity => {
-              newCharity = tempCharity;
+            .then(() => {
               return superagent.get(`${apiURL}/charities/hiiiiiiiiiii`)
                 .set('Authorization', `Bearer ${tempAccount.token}`);
             })
@@ -93,14 +91,12 @@ describe('/charities', () => {
 
     test('401', () => {
       let tempAccount;
-      let newCharity;
       let mockPassword = faker.internet.password();
       return accountMock.create(mockPassword)
         .then(mock => {
           tempAccount = mock;
           return charityMock.create()
             .then(tempCharity => {
-              newCharity = tempCharity;
               return superagent.get(`${apiURL}/charities/${tempCharity._id}`)
                 .set('Authorization', `Bearer ${tempAccount}`);
             })

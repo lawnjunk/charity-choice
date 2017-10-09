@@ -20,4 +20,4 @@ const charitySchema = mongoose.Schema({
   created: {type: Date, default: () => new Date()},
 });
 
-const Charity = module.exports = mongoose.model('charity', charitySchema);
+module.exports = mongoose.model('charity', charitySchema);
