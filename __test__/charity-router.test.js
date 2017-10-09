@@ -36,7 +36,39 @@ describe('/charities', () => {
     });
 
     test('200 should return a charity', () => {
-      
+      let tempAccount;
+      let newCharity;
+      let mockPassword = faker.internet.password();
+      return accountMock.create(mockPassword)
+        .then(mock => {
+          tempAccount = mock;
+          return charityMock.create()
+            .then(tempCharity => {
+              newCharity = tempCharity;
+              return superagent.get(`${apiURL}/charities/${tempCharity._id}`)
+                .set('Authorization', `Bearer ${tempAccount.token}`);
+            })
+            .then(res => {
+              console.log(res.headers);
+              expect(res.status).toEqual(200);
+              expect(res.body._id).toEqual(newCharity._id.toString());
+              expect(res.body.name).toEqual(newCharity.name);
+              expect(res.body.streetAdd).toEqual(newCharity.streetAdd);
+              expect(res.body.city).toEqual(newCharity.city);
+              expect(res.body.state).toEqual(newCharity.state);
+              expect(res.body.zip).toEqual(newCharity.zip);
+              expect(res.body.mission).toEqual(newCharity.mission);
+              expect(res.body.cause).toEqual(newCharity.cause);
+              expect(res.body.rating).toEqual(newCharity.rating);
+              expect(res.body.websiteURL).toEqual(newCharity.websiteURL);
+              expect(res.body.photoURL).toEqual(newCharity.photoURL);
+              expect(res.body.category).toEqual(newCharity.category);
+              expect(res.body.phoneNumber).toEqual(newCharity.phoneNumber);
+              expect(res.body.email).toEqual(newCharity.email);
+              expect(res.body.created).toEqual(newCharity.created.toJSON());
+              expect(JSON.stringify(res.body.keywords)).toEqual(JSON.stringify(newCharity.keywords));
+            });
+        });
     });
   });
 });

@@ -2,6 +2,7 @@
 
 const {Router} = require('express');
 const Charity = require('../model/charity.js');
+const httpErrors = require('http-errors');
 const bearerAuth = require('../lib/bearer-auth-middleware.js');
 
 const charityRouter = module.exports = new Router();
@@ -34,6 +35,16 @@ charityRouter.get('/charities', bearerAuth, (req, res, next) => {
         last: `http://localhost/charities?page=${lastPage}`,
       });
       res.json(result);
+    })
+    .catch(next);
+});
+
+charityRouter.get('/charities/:id', bearerAuth, (req, res, next) => {
+  Charity.findById(req.params.id)
+    .then(charity => {
+      if(!charity)
+        throw httpErrors(404, 'charity not found');
+      res.json(charity);
     })
     .catch(next);
 });

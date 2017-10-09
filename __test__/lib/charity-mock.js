@@ -20,7 +20,6 @@ let create = () => {
     category: faker.lorem.words(10),
     phoneNumber: faker.phone.phoneNumber(),
     email: faker.internet.email(),
-    created: faker.date.past(),
   }).save();
 };
 
