@@ -16,5 +16,4 @@ const profileSchema = mongoose.Schema({
   account: { type: mongoose.Schema.Types.ObjectId, required: true, unique: true },
 });
 
-
 module.exports = mongoose.model('profile', profileSchema);
