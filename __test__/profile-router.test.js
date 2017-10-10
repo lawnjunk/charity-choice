@@ -2,6 +2,7 @@
 
 require('./lib/setup.js');
 
+const faker = require('faker');
 const superagent = require('superagent');
 const server = require('../lib/server.js');
 const accountMock = require('./lib/account-mock.js');
@@ -94,28 +95,34 @@ describe('/profiles', () => {
         .then(mock => {
           tempMock = mock;
           return superagent.get(`${apiURL}/profiles/${mock.profile._id}`)
-            .set('Authorization', `Bearer ${mock.tempAccount.token}`)
+            .set('Authorization', `Bearer ${mock.tempAccount.token}`);
+        })
+        .then(res => {
+          expect(res.status).toEqual(200);
+          expect(res.body.firstName).toEqual(tempMock.profile.firstName);
+          expect(res.body.lastName).toEqual(tempMock.profile.lastName);
+          expect(res.body._id).toEqual(tempMock.profile._id.toString());
+          expect(res.body.account).toEqual(tempMock.tempAccount.account._id.toString());
+        });
+    });
+
+    test('should return 100 profiles', () => {
+      let tempAccount;
+      let mockPassword = faker.internet.password();
+      return accountMock.create(mockPassword)
+        .then(mock => {
+          tempAccount = mock;
+          return profileMock.createMany(100)
+            .then(() => {
+              return superagent.get(`${apiURL}/profiles`)
+                .set('Authorization', `Bearer ${tempAccount.token}`);
+            })
             .then(res => {
               expect(res.status).toEqual(200);
-              expect(res.body.firstName).toEqual(tempMock.profile.firstName);
-              expect(res.body.lastName).toEqual(tempMock.profile.lastName);
-              expect(res.body._id).toEqual(tempMock.profile._id.toString());
-              expect(res.body.account).toEqual(tempMock.tempAccount.account._id.toString());
+              expect(res.body.count).toEqual(100);
+              expect(res.body.data.length).toEqual(100);
             });
         });
     });
   });
-
-  // test('should return 100 profiles', () => {
-  //   return profileMock.createMany(100)
-  //     .then(tempProfile => {
-  //       return superagent.get(`${apiURL}/profiles`);
-  //     })
-  //     .then(res => {
-  //       console.log(res.headers);
-  //       expect(res.status).toEqual(200);
-  //       expect(res.body.count).toEqual(100);
-  //       expect(res.body.data.length).toEqual(100);
-  //     });
-  // });
 });

@@ -12,7 +12,7 @@ const profileSchema = mongoose.Schema({
   bio: {type: String},
   latitude: {type: String},
   longitude: {type: String},
-  account: {type: mongoose.Schema.Types.ObjectId, required: true, unique: true, ref: 'account'},
+  account: {type: mongoose.Schema.Types.ObjectId, required: true, unique: true},
 });
 
 module.exports = mongoose.model('profile', profileSchema);
