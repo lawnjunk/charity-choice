@@ -52,6 +52,23 @@ describe('/charities', () => {
         });
     });
 
+    test('should return charities that match regex query', () => {
+      let tempAccount;
+      let mockPassword = faker.internet.password();
+      return accountMock.create(mockPassword)
+        .then(mock => {
+          tempAccount = mock;
+          return charityMock.createMany(1000)
+            .then(() => {
+              return superagent.get(`${apiURL}/charities?state=missis`)
+                .set('Authorization', `Bearer ${tempAccount.token}`);
+            })
+            .then(res => {
+              expect(res.status).toEqual(200);
+            });
+        });
+    });
+
     test('should return charities with link to first page', () => {
       let tempAccount;
       let mockPassword = faker.internet.password();
@@ -65,7 +82,7 @@ describe('/charities', () => {
             })
             .then(res => {
               expect(res.status).toEqual(200);
-              expect(res.links.next).toEqual('http://localhost/charities?page=1');
+              expect(res.links.next).toEqual(`${apiURL.split(':').slice(0,2).join(':')}/charities?page=1`);
             });
         });
     });

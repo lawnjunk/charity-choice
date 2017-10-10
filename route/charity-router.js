@@ -7,6 +7,8 @@ const bearerAuth = require('../lib/bearer-auth-middleware.js');
 
 const charityRouter = module.exports = new Router();
 
+let fuzzy = (filterTerm) => new RegExp('.*' + filterTerm.toLowerCase().split('').join('.*') + '.*');
+
 charityRouter.get('/charities', bearerAuth, (req, res, next) => {
   let {page='0'} = req.query;
   delete req.query.page;
@@ -14,6 +16,15 @@ charityRouter.get('/charities', bearerAuth, (req, res, next) => {
   if(isNaN(page))
     page=0;
   page = page < 0 ? 0 : page;
+
+  // Fuzzy Search
+  if (req.query.name) req.query.name = ({$regex: fuzzy(req.query.name), $options: 'i'});
+  if (req.query.state) req.query.state = ({$regex: fuzzy(req.query.state), $options: 'i'});
+  if (req.query.city) req.query.city = ({$regex: fuzzy(req.query.city), $options: 'i'});
+  if (req.query.cause) req.query.cause = ({$regex: fuzzy(req.query.cause), $options: 'i'});
+  if (req.query.category) req.query.category = ({$regex: fuzzy(req.query.category), $options: 'i'});
+  // if (req.query.keywords) req.query.keywords = ({$regex: fuzzy(req.query.keywords), $options: 'i'});
+
 
   let charitiesCache;
   Charity.find(req.query)
