@@ -9,18 +9,21 @@ const charityRouter = module.exports = new Router();
 
 charityRouter.get('/charities', bearerAuth, (req, res, next) => {
   let {page='0'} = req.query;
+  delete req.query.page;
   page = Number(page);
   if(isNaN(page))
     page=0;
   page = page < 0 ? 0 : page;
 
+  console.log(req.query);
+
   let charitiesCache;
-  Charity.find({})
+  Charity.find(req.query)
     .skip(page * 100)
     .limit(100)
     .then(charities => {
       charitiesCache = charities;
-      return Charity.find({}).count();
+      return Charity.find(req.query).count();
     })
     .then(count => {
       let result = {
