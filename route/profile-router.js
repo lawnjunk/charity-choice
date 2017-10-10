@@ -9,6 +9,8 @@ const Profile = require('../model/profile.js');
 
 const upload = multer({ dest: `${__dirname}/../temp` });
 
+let fuzzy = (filterTerm) => new RegExp('.*' + filterTerm.toLowerCase().split('').join('.*') + '.*');
+
 module.exports = new Router()
   .post('/profiles', bearerAuth, (req, res, next) => {
     return new Profile({
@@ -39,6 +41,12 @@ module.exports = new Router()
     if (isNaN(page))
       page = 0;
     page = page < 0 ? 0 : page;
+
+    // Fuzzy Search
+    if (req.query.firstName) req.query.firstName = ({$regex: fuzzy(req.query.firstName), $options: 'i'});
+    if (req.query.lastName) req.query.lastName = ({$regex: fuzzy(req.query.lastName), $options: 'i'});
+    if (req.query.city) req.query.city = ({$regex: fuzzy(req.query.city), $options: 'i'});
+    if (req.query.state) req.query.state = ({$regex: fuzzy(req.query.state), $options: 'i'});
 
     let profilesCache;
     Profile.find(req.query)
