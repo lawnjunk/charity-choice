@@ -15,6 +15,7 @@
     "watch": "nodemon index.js",
     "test-watch": "jest --watch -i --coverage",
     "test": "jest -i --coverage",
+    "dbonWin": "mkdir -p $HOME/db && mongod --dbpath $HOME/db",
     "dbon": "mkdir -p ./db && mongod --dbpath ./db",
     "dboff": "killall mongod"
   },

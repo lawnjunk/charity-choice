@@ -3,17 +3,17 @@
 const mongoose = require('mongoose');
 
 const profileSchema = mongoose.Schema({
-  firstName: {tpye: String},
-  lastName: {type: String},
-  city: {type: String},
-  state: {type: String},
+  firstName: { type: String, required: true },
+  lastName: { type: String, required: true },
+  city: { type: String },
+  state: { type: String },
+  donationGoal: { type: String },
+  moneySpent: { type: String },
   photo: {type: String},
-  donationGoal: {type: String},
-  moneySpent: {type: String},
-  bio: {type: String},
-  latitude: {type: String},
-  longitude: {type: String},
-  account: {type: mongoose.Schema.Types.ObjectId, required: true, unique: true, ref: 'account'},
+  bio: { type: String },
+  latitude: { type: String },
+  longitude: { type: String },
+  account: { type: mongoose.Schema.Types.ObjectId, required: true, unique: true },
 });
 
 module.exports = mongoose.model('profile', profileSchema);
