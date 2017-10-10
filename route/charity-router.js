@@ -15,8 +15,6 @@ charityRouter.get('/charities', bearerAuth, (req, res, next) => {
     page=0;
   page = page < 0 ? 0 : page;
 
-  console.log(req.query);
-
   let charitiesCache;
   Charity.find(req.query)
     .skip(page * 100)
