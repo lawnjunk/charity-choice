@@ -130,8 +130,7 @@ describe('/profiles', () => {
   });
 
   describe('PUT /profiles/:id', () => {
-
-    test.only('profile was updated', () => {
+    test('profile was updated', () => {
       let tempProfile;
       return profileMock.create()
         .then(mock => {
@@ -151,6 +150,25 @@ describe('/profiles', () => {
           expect(res.body.lastName).toEqual('Bravo');
           expect(res.body.city).toEqual('Palo Alto');
           expect(res.body.state).toEqual('CA');
+        });
+    });
+  });
+
+  describe('PUT /profiles/avatar', () => {
+    test('updating an avatar photo', () => {
+      let tempProfile;
+      return profileMock.create()
+        .then(mock => {
+          tempProfile = mock;
+          return superagent.put(`${apiURL}/profiles/avatar`)
+            .field('hello', 'world')
+            .set('Authorization', `Bearer ${tempProfile.tempAccount.token}`)
+            .attach('photo', `${__dirname}/asset/kitten.jpg`);
+        })
+        .then(res => {
+          expect(res.status).toEqual(200);
+          expect(res.body.photo).toBeTruthy();
+
         });
     });
   });

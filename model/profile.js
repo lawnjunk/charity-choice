@@ -9,19 +9,12 @@ const profileSchema = mongoose.Schema({
   state: { type: String },
   donationGoal: { type: String },
   moneySpent: { type: String },
+  photo: {type: String},
   bio: { type: String },
   latitude: { type: String },
   longitude: { type: String },
   account: { type: mongoose.Schema.Types.ObjectId, required: true, unique: true },
 });
-
-// profileSchema.methods.update = function (data) {
-//   console.log('FROM MODEL ---> ', data);
-
-// };
-
-
-
 
 
 module.exports = mongoose.model('profile', profileSchema);

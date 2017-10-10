@@ -2,14 +2,18 @@
 
 const { Router } = require('express');
 const httpErrors = require('http-errors');
+const multer = require('multer');
+const s3 = require('../lib/s3.js');
+const fs = require('fs-extra');
 const bearerAuth = require('../lib/bearer-auth-middleware.js');
 const Profile = require('../model/profile.js');
+
+const upload = multer({ dest: `${__dirname}/../temp` });
 
 module.exports = new Router()
   .post('/profiles', bearerAuth, (req, res, next) => {
 
-    if (!req.account)
-      return next(httpErrors(401, 'REQUEST ERROR: no account found'));
+
 
     return new Profile({
       ...req.body,
@@ -63,6 +67,26 @@ module.exports = new Router()
       })
       .catch(next);
   })
+
+  .put('/profiles/avatar', bearerAuth, upload.any(), (req, res, next) => {
+    let file = req.files[0];
+    let key = `${file.filename}.${file.originalname}`;
+    console.log('CHECKING FOR ERRORS');
+    return s3.upload(file.path, key)
+      .then(url => {
+        console.log('URL ', url);
+        return Profile.findOneAndUpdate({ account: req.account._id }, { photo: url }, { new: true, runValidators: true });
+      })
+      .then(profile => {
+        if (!profile)
+          throw httpErrors(404, '__REQUEST_ERROR__ profile not found');
+        console.log(profile);
+        res.json(profile);
+      })
+      .catch(next);
+  })
+
+
   .put('/profiles/:id', bearerAuth, (req, res, next) => {
     Profile.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true })
       .then(profile => {
@@ -71,6 +95,5 @@ module.exports = new Router()
         res.json(profile);
       })
       .catch(next);
-
-
   });
+
