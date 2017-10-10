@@ -124,5 +124,34 @@ describe('/profiles', () => {
             });
         });
     });
+
+
+
+  });
+
+  describe('PUT /profiles/:id', () => {
+
+    test.only('profile was updated', () => {
+      let tempProfile;
+      return profileMock.create()
+        .then(mock => {
+          tempProfile = mock;
+          return superagent.put(`${apiURL}/profiles/${tempProfile.profile._id}`)
+            .set('Authorization', `Bearer ${tempProfile.tempAccount.token}`)
+            .send({
+              firstName: 'Johnny',
+              lastName: 'Bravo',
+              city: 'Palo Alto',
+              state: 'CA',
+            });
+        })
+        .then(res => {
+          expect(res.status).toEqual(200);
+          expect(res.body.firstName).toEqual('Johnny');
+          expect(res.body.lastName).toEqual('Bravo');
+          expect(res.body.city).toEqual('Palo Alto');
+          expect(res.body.state).toEqual('CA');
+        });
+    });
   });
 });

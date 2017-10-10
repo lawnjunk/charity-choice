@@ -1,6 +1,6 @@
 'use strict';
 
-const {Router} = require('express');
+const { Router } = require('express');
 const httpErrors = require('http-errors');
 const bearerAuth = require('../lib/bearer-auth-middleware.js');
 const Profile = require('../model/profile.js');
@@ -26,17 +26,17 @@ module.exports = new Router()
   .get('/profiles/:id', bearerAuth, (req, res, next) => {
     Profile.findById(req.params.id)
       .then(profile => {
-        if(!profile)
+        if (!profile)
           throw httpErrors(404, '__REQUEST_ERROR__ profile not found');
         res.json(profile);
       })
       .catch(next);
   })
   .get('/profiles', bearerAuth, (req, res, next) => {
-    let {page='0'} = req.query;
+    let { page = '0' } = req.query;
     page = Number(page);
-    if(isNaN(page))
-      page=0;
+    if (isNaN(page))
+      page = 0;
     page = page < 0 ? 0 : page;
 
     let profilesCache;
@@ -55,11 +55,22 @@ module.exports = new Router()
 
         let lastPage = Math.floor(count / 100);
         res.links({
-          next: `http://localhost/profiles?page=${page+1}`,
+          next: `http://localhost/profiles?page=${page + 1}`,
           prev: `http://localhost/profiles?page=${page < 1 ? 0 : page - 1}`,
           last: `http://localhost/profiles?page=${lastPage}`,
         });
         res.json(result);
       })
       .catch(next);
+  })
+  .put('/profiles/:id', bearerAuth, (req, res, next) => {
+    Profile.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true })
+      .then(profile => {
+        if (!profile)
+          throw httpErrors(404, '__REQUEST_ERROR__ profile not found');
+        res.json(profile);
+      })
+      .catch(next);
+
+
   });
