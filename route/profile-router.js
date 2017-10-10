@@ -8,10 +8,12 @@ const Profile = require('../model/profile.js');
 
 module.exports = new Router()
 .post('/profiles', bearerAuth, jsonParser, (req, res, next) => {
+  console.log('lul wat', req.body);
   if (!req.account)
     return next(httpErrors(401, 'REQUEST ERROR: no account found'));
   return new Profile({
     ...req.body,
+    photo: undefined,
     account: req.account._id,
     username: req.account.username,
     email: req.account.email,

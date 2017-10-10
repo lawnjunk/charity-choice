@@ -3,11 +3,10 @@
 const mongoose = require('mongoose');
 
 const profileSchema = mongoose.Schema({
-  firstName: {tpye: String},
-  lastName: {type: String},
+  firstName: {type: String, required: true},
+  lastName: {type: String, required: true},
   city: {type: String},
   state: {type: String},
-  photo: {type: String},
   donationGoal: {type: String},
   moneySpent: {type: String},
   bio: {type: String},
