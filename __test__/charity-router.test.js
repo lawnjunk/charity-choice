@@ -15,7 +15,7 @@ describe('/charities', () => {
   afterEach(charityMock.remove);
 
   describe('GET /charities', () => {
-    test('should return 100 charities', () => {
+    test('should return 1000 charities', () => {
       let tempAccount;
       let mockPassword = faker.internet.password();
       return accountMock.create(mockPassword)

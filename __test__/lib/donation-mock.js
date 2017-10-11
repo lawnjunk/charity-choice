@@ -6,7 +6,7 @@ const Donation = require('../../model/donation.js');
 
 let create = (profile, charity) => {
   return new Donation({
-    amount: faker.finance.amount(),
+    amount: Math.floor(Math.random() * 100),
     inHonorOf: faker.name.findName(),
     account: profile.account,
     profile: profile._id,
@@ -14,8 +14,8 @@ let create = (profile, charity) => {
   }).save();
 };
 
-let createMany = (num) => {
-  return Promise.all(new Array(num).fill(0).map(() => create()));
+let createMany = (num, profile, charity) => {
+  return Promise.all(new Array(num).fill(0).map(() => create(profile, charity)));
 };
 
 let remove = () => {

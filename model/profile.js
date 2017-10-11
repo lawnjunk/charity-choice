@@ -7,12 +7,14 @@ const profileSchema = mongoose.Schema({
   lastName: { type: String, required: true },
   city: { type: String },
   state: { type: String },
-  donationGoal: { type: String },
-  moneySpent: { type: String },
+  donationGoal: { type: Number },
+  moneySpent: { type: Number },
   photo: {type: String},
   bio: { type: String },
-  latitude: { type: String },
-  longitude: { type: String },
+  location: {
+    type: {type: String, default: 'Point'},
+    cordinates: [{type: Number}],
+  },
   account: { type: mongoose.Schema.Types.ObjectId, required: true, unique: true },
 });
 

@@ -2,7 +2,6 @@
 
 require('./lib/setup.js');
 
-const faker = require('faker');
 const superagent = require('superagent');
 const server = require('../lib/server.js');
 const profileMock = require('./lib/profile-mock.js');
@@ -27,12 +26,12 @@ describe('/donations', () => {
         })
         .then(mock => {
           tempCharity = mock;
-          console.log('tempProfile.profile: ', tempProfile.profile);
-          console.log('tempProfile.tempAccount.account: ', tempProfile.tempAccount.account);
+          //console.log('tempProfile.profile: ', tempProfile.profile);
+          //console.log('tempProfile.tempAccount.account: ', tempProfile.tempAccount.account);
           return superagent.post(`${apiURL}/donations`)
             .set('Authorization', `Bearer ${tempProfile.tempAccount.token}`)
             .send({
-              amount: '50',
+              amount: 50,
               inHonorOf: 'Helen Hanson',
               account: tempProfile.tempAccount.account,
               profile: tempProfile.profile._id,
@@ -41,7 +40,7 @@ describe('/donations', () => {
         })
         .then(response => {
           expect(response.status).toEqual(200);
-          expect(response.body.amount).toEqual('50');
+          expect(response.body.amount).toEqual(50);
           expect(response.body.inHonorOf).toEqual('Helen Hanson');
           expect(response.body.account).toEqual(tempProfile.tempAccount.account._id.toString());
           expect(response.body.profile).toEqual(tempProfile.profile._id.toString());
@@ -50,10 +49,30 @@ describe('/donations', () => {
     });
   });
 
-  // describe('GET /donations?', () => {
-  //   test('200 should return a donation', () => {
-  //
-  //   });
-  // });
-
+  describe('GET /donations', () => {
+    test('should return 5 donations', () => {
+      let tempProfile;
+      let tempCharity;
+      return profileMock.create()
+        .then(mock => {
+          tempProfile = mock;
+          return charityMock.create()
+            .then(mock => {
+              tempCharity = mock;
+              return donationMock.createMany(5, tempProfile.profile, tempCharity)
+                .then(() => {
+                  return superagent.get(`${apiURL}/donations`)
+                    .set('Authorization', `Bearer ${tempProfile.tempAccount.token}`)
+                })
+                .then(res => {
+                  console.log(res.body);
+                  expect(res.status).toEqual(200);
+                  expect(res.body.count).toEqual(5);
+                  //expect(res.body.data.length).toEqual(100);
+                  //expect(res.links).toBeTruthy();
+                });
+            });
+        });
+    });
+  });
 });

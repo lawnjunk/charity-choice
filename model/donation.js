@@ -3,7 +3,7 @@
 const mongoose = require('mongoose');
 
 const donationSchema = mongoose.Schema({
-  amount: { type: String, required: true },
+  amount: { type: Number, required: true },
   inHonorOf: { type: String },
   charity: { type: mongoose.Schema.Types.ObjectId, required: true, ref: 'charity'},
   profile: { type: mongoose.Schema.Types.ObjectId, required: true, ref: 'profile'},
