@@ -5,18 +5,18 @@ const httpErrors = require('http-errors');
 const bearerAuth = require('../lib/bearer-auth-middleware.js');
 const Donation = require('../model/donation.js');
 
-let fuzzy = (filterTerm) => new RegExp('.*' + filterTerm.toLowerCase().split('').join('.*') + '.*');
+// let fuzzy = (filterTerm) => new RegExp('.*' + filterTerm.toLowerCase().split('').join('.*') + '.*');
 
 module.exports = new Router()
   .post('/donations', bearerAuth, (req, res, next) => {
     console.log('req.body: ', req.body);
     return new Donation({
-      // ...req.body,
+      ...req.body,
       amount: req.body.amount,
       inHonorOf: req.body.inHonorOf,
-      account: req.body.profile.account,
-      profile: req.body.profile._id,
-      charity: req.body.charity._id,
+      account: req.body.account._id,
+      profile: req.body.profile,
+      charity: req.body.charity,
     }).save()
       .then(profile => {
         res.json(profile);

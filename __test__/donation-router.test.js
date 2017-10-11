@@ -30,6 +30,9 @@ describe('/donations', () => {
           return superagent.post(`${apiURL}/donations`)
             .set('Authorization', `Bearer ${tempProfile.tempAccount.token}`)
             .send({
+              account: tempProfile.tempAccount,
+              profile: tempProfile._id,
+              charity: tempCharity._id,
               amount: '50',
               inHonorOf: 'Helen Hanson',
             });
