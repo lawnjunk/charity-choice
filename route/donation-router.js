@@ -1,6 +1,7 @@
 'use strict';
 
 const { Router } = require('express');
+const httpErrors = require('http-errors');
 const bearerAuth = require('../lib/bearer-auth-middleware.js');
 const Donation = require('../model/donation.js');
 
@@ -8,6 +9,8 @@ let fuzzy = (filterTerm) => new RegExp('.*' + filterTerm.toLowerCase().split('')
 
 module.exports = new Router()
   .post('/donations', bearerAuth, (req, res, next) => {
+    if(!req.body.amount || !req.body.account || !req.body.profile || !req.body.charity)
+      return next(httpErrors(400, 'amnout, account, profile, and charity required'));
     return new Donation({
       ...req.body,
       amount: req.body.amount,
