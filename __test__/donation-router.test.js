@@ -47,6 +47,57 @@ describe('/donations', () => {
           expect(response.body.charity).toEqual(tempCharity._id.toString());
         });
     });
+
+    test.only('400 due to missing account', () => {
+      let tempProfile;
+      let tempCharity;
+      return profileMock.create()
+        .then(mock => {
+          tempProfile = mock;
+          return charityMock.create();
+        })
+        .then(mock => {
+          tempCharity = mock;
+          return superagent.post(`${apiURL}/donations`)
+            .set('Authorization', `Bearer ${tempProfile.tempAccount.token}`)
+            .send({
+              amount: 50,
+              inHonorOf: 'Helen Hanson',
+              profile: tempProfile.profile._id,
+              charity: tempCharity._id,
+            });
+        })
+        .then(Promise.reject)
+        .catch(response => {
+          expect(response.status).toEqual(400);
+        });
+    });
+
+    test.only('401 due to bad token', () => {
+      let tempProfile;
+      let tempCharity;
+      return profileMock.create()
+        .then(mock => {
+          tempProfile = mock;
+          return charityMock.create();
+        })
+        .then(mock => {
+          tempCharity = mock;
+          return superagent.post(`${apiURL}/donations`)
+            .set('Authorization', `Bearer badToken`)
+            .send({
+              amount: 50,
+              inHonorOf: 'Helen Hanson',
+              account: tempProfile.tempAccount.account,
+              profile: tempProfile.profile._id,
+              charity: tempCharity._id,
+            });
+        })
+        .then(Promise.reject)
+        .catch(response => {
+          expect(response.status).toEqual(401);
+        });
+    });
   });
 
   describe('GET /donations', () => {
