@@ -164,5 +164,38 @@ describe('/donations', () => {
             });
         });
     });
+
+    test('GET /donations? pagination test NaN page should return 200', () => {
+      return profileMock.create()
+        .then(mock => {
+          return superagent.get(`${apiURL}/donations?page=nyahahha`)
+            .set('Authorization', `Bearer ${mock.tempAccount.token}`);
+        })
+        .then(res => {
+          expect(res.status).toEqual(200);
+        });
+    });
+
+    test('GET /donations? pagination test NaN page should return 200', () => {
+      return profileMock.create()
+        .then(mock => {
+          return superagent.get(`${apiURL}/donations?page=1`)
+            .set('Authorization', `Bearer ${mock.tempAccount.token}`);
+        })
+        .then(res => {
+          expect(res.status).toEqual(200);
+        });
+    });
+
+    test('GET /donations? pagination test NaN page should return 200', () => {
+      return profileMock.create()
+        .then(mock => {
+          return superagent.get(`${apiURL}/donations?page=-1`)
+            .set('Authorization', `Bearer ${mock.tempAccount.token}`);
+        })
+        .then(res => {
+          expect(res.status).toEqual(200);
+        });
+    });
   });
 });
