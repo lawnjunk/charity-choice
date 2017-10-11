@@ -142,7 +142,52 @@ describe('/favorites', () => {
           expect(res.status).toEqual(200);
         });
     });
-  });
+
+    test('200 page should be less than 100 favorites', () => {
+      let tempProfile;
+      let token;
+      return profileMock.create()
+        .then(mock => {
+          tempProfile = mock;
+          token = mock.tempAccount.token;
+          return superagent.get(`${apiURL}/favorites?page=dsgsdhdhdf`)
+          .set('Authorization', `Bearer ${token}`);
+        })
+        .then(res => {
+          expect(res.status).toEqual(200);
+        });
+      })
+
+    test('200 page should be less than 100 favorites', () => {
+      let tempProfile;
+      let token;
+      return profileMock.create()
+        .then(mock => {
+          tempProfile = mock;
+          token = mock.tempAccount.token;
+          return superagent.get(`${apiURL}/favorites?page=-1`)
+          .set('Authorization', `Bearer ${token}`);
+        })
+        .then(res => {
+          expect(res.status).toEqual(200);
+        });
+      })
+
+      test('200 page should be less than 100 favorites', () => {
+        let tempProfile;
+        let token;
+        return profileMock.create()
+          .then(mock => {
+            tempProfile = mock;
+            token = mock.tempAccount.token;
+            return superagent.get(`${apiURL}/favorites?page=1`)
+            .set('Authorization', `Bearer ${token}`);
+          })
+          .then(res => {
+            expect(res.status).toEqual(200);
+          });
+        })
+    });
 
 
   describe('DELETE /favorites', () => {
