@@ -80,7 +80,7 @@ describe('/favorites', () => {
       return profileMock.create()
         .then(mock => {
           tempProfile = mock;
-          return superagent.put(`${apiURL}/profiles/${tempProfile.profile._id}`)
+          return superagent.post(`${apiURL}/favorites`)
             .set('Authorization', `Bearer ${tempProfile.tempAccount.token}`)
             .send({
               profile:tempProfile.profile._id,

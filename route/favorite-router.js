@@ -11,7 +11,7 @@ const favoriteRouter = module.exports = new Router();
 favoriteRouter.post('/favorites', bearerAuth, (req, res, next) => {
 
   if(!req.body.profile || !req.body.charity)
-    return next(httpErrors(400, 'Profile and Favorite required'));
+    return next(httpErrors(400, 'Profile and Charity required'));
 
   Favorite.findOne(req.body)
     .then(favorite => {
