@@ -48,7 +48,7 @@ describe('/donations', () => {
         });
     });
 
-    test.only('400 due to missing account', () => {
+    test('400 due to missing account', () => {
       let tempProfile;
       let tempCharity;
       return profileMock.create()
@@ -73,7 +73,7 @@ describe('/donations', () => {
         });
     });
 
-    test.only('401 due to bad token', () => {
+    test('401 due to bad token', () => {
       let tempProfile;
       let tempCharity;
       return profileMock.create()
@@ -123,7 +123,7 @@ describe('/donations', () => {
         });
     });
 
-    test('GET /donations? 200 should return searched donations', () => {
+    test('GET /donations? 200 should return 5 donations', () => {
       let tempProfile;
       let tempCharity;
       return profileMock.create()
@@ -144,7 +144,7 @@ describe('/donations', () => {
         });
     });
 
-    test('GET /donations? 200 should return searched donations', () => {
+    test('GET /donations? 200 should return 5 donations (fuzzy)', () => {
       let tempProfile;
       let tempCharity;
       return profileMock.create()

@@ -33,7 +33,6 @@ module.exports = new Router()
     page = page < 0 ? 0 : page;
 
     // Fuzzy Search
-    if (req.query.amount) req.query.amount = ({$regex: fuzzy(req.query.amount), $options: 'i'});
     if (req.query.inHonorOf) req.query.inHonorOf = ({$regex: fuzzy(req.query.inHonorOf), $options: 'i'});
 
     let donationsCache;
