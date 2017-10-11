@@ -28,11 +28,9 @@ describe('/profiles', () => {
               lastName: 'Jacobs',
               city: 'Seattle',
               state: 'WA',
-              donationGoal: '5000',
-              moneySpent: '2500',
+              donationGoal: 5000,
+              moneySpent: 2500,
               bio: 'Lorem ipsum.',
-              latitude: '555555',
-              longitude: '-555555',
             });
         })
         .then(response => {
@@ -40,11 +38,9 @@ describe('/profiles', () => {
           expect(response.body.lastName).toEqual('Jacobs');
           expect(response.body.city).toEqual('Seattle');
           expect(response.body.state).toEqual('WA');
-          expect(response.body.donationGoal).toEqual('5000');
-          expect(response.body.moneySpent).toEqual('2500');
+          expect(response.body.donationGoal).toEqual(5000);
+          expect(response.body.moneySpent).toEqual(2500);
           expect(response.body.bio).toEqual('Lorem ipsum.');
-          expect(response.body.latitude).toEqual('555555');
-          expect(response.body.longitude).toEqual('-555555');
           expect(response.body.account).toEqual(tempAccount.account._id.toString());
           expect(response.status).toEqual(200);
         });
@@ -64,8 +60,6 @@ describe('/profiles', () => {
               donationGoal: '5000',
               moneySpent: '2500',
               bio: 'Lorem ipsum.',
-              latitude: '555555',
-              longitude: '-555555',
             });
         })
         .then(Promise.reject)
