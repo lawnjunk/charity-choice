@@ -43,7 +43,7 @@ describe('/favorites', () => {
         });
     });
 
-    test('400 Duplicate', () => {
+    test('409 Duplicate', () => {
       let tempProfile;
       let tempCharity;
 
@@ -72,6 +72,23 @@ describe('/favorites', () => {
         .then(Promise.reject)
         .catch(res => {
           expect(res.status).toEqual(409);
+        });
+    });
+
+    test('400 Profile and favorite required', () => {
+      let tempProfile;
+      return profileMock.create()
+        .then(mock => {
+          tempProfile = mock;
+          return superagent.put(`${apiURL}/profiles/${tempProfile.profile._id}`)
+            .set('Authorization', `Bearer ${tempProfile.tempAccount.token}`)
+            .send({
+              profile:tempProfile.profile._id,
+            });
+        })
+        .then(Promise.reject)
+        .catch(res => {
+          expect(res.status).toEqual(400);
         });
     });
   });
@@ -126,6 +143,8 @@ describe('/favorites', () => {
         });
     });
   });
+
+
   describe('DELETE /favorites', () => {
     test('204 favorite deleted', () => {
       let tempProfiles;

@@ -34,8 +34,6 @@ favoriteRouter.get('/favorites', bearerAuth, (req, res, next) => {
     page=0;
   page = page < 0 ? 0 : page;
 
-  // Fuzzy Search
-
   let favoritesCache;
   Favorite.find(req.query)
     .skip(page * 100)
