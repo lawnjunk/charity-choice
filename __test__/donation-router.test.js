@@ -27,28 +27,25 @@ describe('/donations', () => {
         })
         .then(mock => {
           tempCharity = mock;
+          console.log('tempProfile.profile: ', tempProfile.profile);
+          console.log('tempProfile.tempAccount.account: ', tempProfile.tempAccount.account);
           return superagent.post(`${apiURL}/donations`)
             .set('Authorization', `Bearer ${tempProfile.tempAccount.token}`)
             .send({
-              account: tempProfile.tempAccount,
-              profile: tempProfile._id,
-              charity: tempCharity._id,
               amount: '50',
               inHonorOf: 'Helen Hanson',
+              account: tempProfile.tempAccount.account,
+              profile: tempProfile.profile._id,
+              charity: tempCharity._id,
             });
         })
         .then(response => {
           expect(response.status).toEqual(200);
-        // expect(response.body.firstName).toEqual('John');
-        // expect(response.body.lastName).toEqual('Jacobs');
-        // expect(response.body.city).toEqual('Seattle');
-        // expect(response.body.state).toEqual('WA');
-        // expect(response.body.donationGoal).toEqual('5000');
-        // expect(response.body.moneySpent).toEqual('2500');
-        // expect(response.body.bio).toEqual('Lorem ipsum.');
-        // expect(response.body.latitude).toEqual('555555');
-        // expect(response.body.longitude).toEqual('-555555');
-        // expect(response.body.account).toEqual(tempAccount.account._id.toString());
+          expect(response.body.amount).toEqual('50');
+          expect(response.body.inHonorOf).toEqual('Helen Hanson');
+          expect(response.body.account).toEqual(tempProfile.tempAccount.account._id.toString());
+          expect(response.body.profile).toEqual(tempProfile.profile._id.toString());
+          expect(response.body.charity).toEqual(tempCharity._id.toString());
         });
     });
   });
