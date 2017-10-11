@@ -49,9 +49,9 @@ module.exports = new Router()
 
         let lastPage = Math.floor(count / 100);
         res.links({
-          next: `http://localhost/profiles?page=${page + 1}`,
-          prev: `http://localhost/profiles?page=${page < 1 ? 0 : page - 1}`,
-          last: `http://localhost/profiles?page=${lastPage}`,
+          next: `http://localhost/donations?page=${page + 1}`,
+          prev: `http://localhost/donations?page=${page < 1 ? 0 : page - 1}`,
+          last: `http://localhost/donations?page=${lastPage}`,
         });
         res.json(result);
       })

@@ -50,7 +50,7 @@ describe('/donations', () => {
   });
 
   describe('GET /donations', () => {
-    test('should return 5 donations', () => {
+    test('GET /donations should return 5 donations', () => {
       let tempProfile;
       let tempCharity;
       return profileMock.create()
@@ -67,6 +67,48 @@ describe('/donations', () => {
                 .then(res => {
                   expect(res.status).toEqual(200);
                   expect(res.body.count).toEqual(5);
+                });
+            });
+        });
+    });
+
+    test('GET /donations? 200 should return searched donations', () => {
+      let tempProfile;
+      let tempCharity;
+      return profileMock.create()
+        .then(mock => {
+          tempProfile = mock;
+          return charityMock.create()
+            .then(mock => {
+              tempCharity = mock;
+              return donationMock.createMany(5, tempProfile.profile, tempCharity)
+                .then(() => {
+                  return superagent.get(`${apiURL}/donations?inHonorOf=Helen Hanson`)
+                    .set('Authorization', `Bearer ${tempProfile.tempAccount.token}`);
+                })
+                .then(res => {
+                  expect(res.status).toEqual(200);
+                });
+            });
+        });
+    });
+
+    test('GET /donations? 200 should return searched donations', () => {
+      let tempProfile;
+      let tempCharity;
+      return profileMock.create()
+        .then(mock => {
+          tempProfile = mock;
+          return charityMock.create()
+            .then(mock => {
+              tempCharity = mock;
+              return donationMock.createMany(5, tempProfile.profile, tempCharity)
+                .then(() => {
+                  return superagent.get(`${apiURL}/donations?inHonorOf=hele`)
+                    .set('Authorization', `Bearer ${tempProfile.tempAccount.token}`);
+                })
+                .then(res => {
+                  expect(res.status).toEqual(200);
                 });
             });
         });
