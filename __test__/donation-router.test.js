@@ -13,6 +13,8 @@ const apiURL = `http://localhost:${process.env.PORT}`;
 describe('/donations', () => {
   beforeAll(server.start);
   afterAll(server.stop);
+  afterEach(profileMock.remove);
+  afterEach(charityMock.remove);
   afterEach(donationMock.remove);
 
   describe('POST /donations', () => {
@@ -26,8 +28,6 @@ describe('/donations', () => {
         })
         .then(mock => {
           tempCharity = mock;
-          //console.log('tempProfile.profile: ', tempProfile.profile);
-          //console.log('tempProfile.tempAccount.account: ', tempProfile.tempAccount.account);
           return superagent.post(`${apiURL}/donations`)
             .set('Authorization', `Bearer ${tempProfile.tempAccount.token}`)
             .send({
@@ -62,14 +62,11 @@ describe('/donations', () => {
               return donationMock.createMany(5, tempProfile.profile, tempCharity)
                 .then(() => {
                   return superagent.get(`${apiURL}/donations`)
-                    .set('Authorization', `Bearer ${tempProfile.tempAccount.token}`)
+                    .set('Authorization', `Bearer ${tempProfile.tempAccount.token}`);
                 })
                 .then(res => {
-                  console.log(res.body);
                   expect(res.status).toEqual(200);
                   expect(res.body.count).toEqual(5);
-                  //expect(res.body.data.length).toEqual(100);
-                  //expect(res.links).toBeTruthy();
                 });
             });
         });
