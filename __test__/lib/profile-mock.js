@@ -15,11 +15,9 @@ let create = () => {
         lastName: faker.name.lastName(),
         city: faker.address.city(),
         state: faker.address.state(),
-        donationGoal: faker.finance.amount(),
-        moneySpent: faker.finance.amount(),
+        donationGoal: Math.floor(Math.random() * 100),
+        moneySpent: Math.floor(Math.random() * 250),
         bio: faker.lorem.words(100),
-        latitude: faker.address.latitude(),
-        longitude: faker.address.longitude(),
         account: result.tempAccount.account._id,
       }).save();
     })
