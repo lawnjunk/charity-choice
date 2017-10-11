@@ -143,7 +143,7 @@ describe('/favorites', () => {
         });
     });
 
-    test('200 page should be less than 100 favorites', () => {
+    test('200 page should return NaN', () => {
       let token;
       return profileMock.create()
         .then(mock => {
@@ -156,7 +156,7 @@ describe('/favorites', () => {
         });
     });
 
-    test('200 page should be less than 100 favorites', () => {
+    test('200 page should less than zero', () => {
       let token;
       return profileMock.create()
         .then(mock => {
@@ -169,7 +169,7 @@ describe('/favorites', () => {
         });
     });
 
-    test('200 page should be less than 100 favorites', () => {
+    test('200 page should be more than zero', () => {
       let token;
       return profileMock.create()
         .then(mock => {
