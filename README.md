@@ -45,11 +45,21 @@ Charity-tracker. Ability to find charities, save one or more charities to Favori
 
 ### `/favorites`
 **Bearer Auth**
+##### GET: returns an array of paginated favorite objects
+##### POST: `charityId` (required)
+
+### `/charities/:id`
+##### DELETE: expects JSON
 
 * * *
 
 ### `/donations`
 **Bearer Auth**
+##### GET: returns an array of paginated donation objects
+##### POST: `charityId` (required), `amount` (required), `inHonorOf`
+
+### `/donations?`
+##### GET: returns an array of donation objects with fuzzy search parameter: `inHonorOf`
 
 * * *
 
