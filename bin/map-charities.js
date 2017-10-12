@@ -1,10 +1,16 @@
 'use strict';
 
+
+// createa  command line utility that
+// takes in a state 
 const fs = require('fs-extra');
 
 fs.readFile(`${__dirname}/asset/charity.json`)
   .then(data => {
-    return JSON.parse(data.toString()).map(charity => {
+    return JSON.parse(data.toString());
+  })
+  .then(charities => {
+    return charities.map(charity => {
       let address = charity.mailingAddress;
       return {
         name: charity.charityName,
