@@ -183,7 +183,7 @@ describe('/profiles', () => {
         .then(mock => {
           token = mock.tempAccount.token;
           return superagent.get(`${apiURL}/profiles?page=wedrfgh`)
-          .set('Authorization', `Bearer ${token}`);
+            .set('Authorization', `Bearer ${token}`);
         })
         .then(res => {
           expect(res.status).toEqual(200);
@@ -191,7 +191,7 @@ describe('/profiles', () => {
     });
 
     test('GET /profiles 200 page should be less than zero', () => {
-      let token ;
+      let token;
       return profileMock.create()
         .then(mock => {
           token = mock.tempAccount.token;
