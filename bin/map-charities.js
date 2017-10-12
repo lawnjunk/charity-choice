@@ -1,17 +1,12 @@
 'use strict';
 
 const fs = require('fs-extra');
-// const mongoose = require('mongoose');
-const Charity = require('./../model/charity.js');
-
-let mongodbURI = process.env.MONGODB_URI || 'mongodb://localhost/dev';
 
 fs.readFile(`${__dirname}/asset/charity.json`)
   .then(data => {
-    // console.log(JSON.parse(data.toString()));
-    return Promise.all(JSON.parse(data.toString()).map(charity => {
+    return JSON.parse(data.toString()).map(charity => {
       let address = charity.mailingAddress;
-      return new Charity({
+      return {
         name: charity.charityName,
         streetAdd: address.streetAddress1,
         city: address.city,
@@ -23,10 +18,14 @@ fs.readFile(`${__dirname}/asset/charity.json`)
         websiteURL: charity.websiteURL,
         photoURL: 'NA',
         keywords: charity.tagLine,
-        category: charity.category,
+        category: charity.category.categoryName,
         phoneNumber: '204-867-5309',
         email: 'some@email.com',
-      }).save();
-    }));
+      };
+    });
   })
-  .then(() => console.log('Charities Populated!!!'));
+  .then(res => {
+    fs.writeJson(`${__dirname}/asset/mapped-charity.json`, res)
+      .then(() => console.log('success'))
+      .catch(console.log);
+  });
