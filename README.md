@@ -1,4 +1,4 @@
-##  Charity Choice API
+#  Charity Choice API
 
 ## About:
 Charity-tracker. Ability to find charities, save one or more charities to Favorites, delete a Favorite from one's Favorites list, look at other people’s Favorites lists and share one’s own Favorites. User might want to, say, gift her parents a donation to a charity of the type they like donating to for a holiday gift. She wants to easily view charities she has donated to both on behalf of other people and just because she wants to give support to some good causes.
@@ -6,7 +6,7 @@ Charity-tracker. Ability to find charities, save one or more charities to Favori
 ## Routes:
 
 ### `/auth`
-#### Basic Auth
+**Basic Auth**
 ##### GET: returns tokenseed
 ##### POST: `username` (required, unique), `email` (required, unique), `password` (required)
 ##### PUT: `username` (required, unique), `email` (required, unique), `password` (required)
@@ -14,7 +14,7 @@ Charity-tracker. Ability to find charities, save one or more charities to Favori
 * * *
 
 ### `/profiles`
-#### Bearer Auth
+**Bearer Auth**
 ##### GET: returns an array of paginated profile objects
 ##### POST: `firstName` (required), `lastName` (required), `city`, `state`, `donationGoal`, `moneySpent`, `bio`
 
@@ -31,7 +31,7 @@ Charity-tracker. Ability to find charities, save one or more charities to Favori
 * * *
 
 ### `/charities`
-#### Bearer Auth
+**Bearer Auth**
 ##### GET: returns an array of paginated profile objects
 
 ### `/charities?`
@@ -43,5 +43,11 @@ Charity-tracker. Ability to find charities, save one or more charities to Favori
 
 * * *
 
+## Scripts:
+##### `npm start`
+##### `npm run dbon`
+
+* * *
+
 ## Testing:
-##### `npm test` from root
+##### `npm test`
