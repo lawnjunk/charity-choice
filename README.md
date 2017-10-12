@@ -3,6 +3,10 @@
 ## About:
 Charity-tracker. Ability to find charities, save one or more charities to Favorites, delete a Favorite from one's Favorites list, look at other people’s Favorites lists and share one’s own Favorites. User might want to, say, gift her parents a donation to a charity of the type they like donating to for a holiday gift. She wants to easily view charities she has donated to both on behalf of other people and just because she wants to give support to some good causes.
 
+## Group Members:
+
+[Stuart Kershaw](https://github.com/stuartkershaw)
+
 ## Routes:
 
 ### `/auth`
