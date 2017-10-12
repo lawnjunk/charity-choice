@@ -17,7 +17,7 @@ fs.readFile(`${__dirname}/asset/charity.json`)
         rating: Math.ceil(Math.random() * 5),
         websiteURL: charity.websiteURL,
         photoURL: 'NA',
-        keywords: charity.tagLine,
+        keywords: charity.tagLine.split(' '),
         category: charity.category.categoryName,
         phoneNumber: '204-867-5309',
         email: 'some@email.com',

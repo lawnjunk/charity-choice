@@ -3,20 +3,20 @@
 const mongoose = require('mongoose');
 
 const charitySchema = mongoose.Schema({
-  name: {type: String, required: true, unique: true},
-  streetAdd: {type: String, required: true},
-  city: {type: String, required: true},
+  name: {type: String, required: true},
+  streetAdd: {type: String},
+  city: {type: String},
   state: {type: String},
   zip: {type: String},
-  mission: {type: String, required: true},
-  cause: {type: String, required: true},
-  rating: {type: String, required: true},
-  websiteURL: {type: String, required: true},
-  photoURL: {type: String, required: true},
-  keywords: [{type: String, required: true}],
-  category: {type: String, required: true},
-  phoneNumber: {type: String, required: true},
-  email: {type: String, required: true},
+  mission: {type: String},
+  cause: {type: String},
+  rating: {type: String},
+  websiteURL: {type: String},
+  photoURL: {type: String},
+  keywords: [{type: String}],
+  category: {type: String},
+  phoneNumber: {type: String},
+  email: {type: String},
   created: {type: Date, default: () => new Date()},
 });
 
