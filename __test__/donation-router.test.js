@@ -48,7 +48,7 @@ describe('/donations', () => {
         });
     });
 
-    test('400 due to missing account', () => {
+    test('400 due to missing amount', () => {
       let tempProfile;
       let tempCharity;
       return profileMock.create()
@@ -61,7 +61,6 @@ describe('/donations', () => {
           return superagent.post(`${apiURL}/donations`)
             .set('Authorization', `Bearer ${tempProfile.tempAccount.token}`)
             .send({
-              amount: 50,
               inHonorOf: 'Helen Hanson',
               profile: tempProfile.profile._id,
               charity: tempCharity._id,
