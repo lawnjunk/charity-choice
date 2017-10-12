@@ -6,7 +6,6 @@
 const fs = require('fs-extra');
 const superagent = require('superagent');
 const { exec } = require('child_process');
-const Throttle = require('superagent-throttle');
 
 const apiURL = 'http://api.data.charitynavigator.org/v2/organizations';
 
@@ -20,9 +19,9 @@ const loadJsonFile = `mongoimport --uri ${MONGODB_URI} --collection charities --
 console.log('ID', CHARITY_APP_ID, 'key:', CHARITY_APP_KEY);
 
 const states = [
-  'AL', 'AK', //'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'DC',
-  // 'FL', 'GA', 'HI', 'ID', 'IL', 'IN',
-  // 'IA', 'KS', 'KY', 'LA', 'ME', 'MD', 'MA',
+  'AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'DC',
+  'FL', 'GA', 'HI', 'ID', 'IL', 'IN',
+  'IA', 'KS', 'KY', 'LA', 'ME', 'MD', 'MA',
   // 'MI', 'MN', 'MS', 'MO', 'MT', 'NE', 'NV', 'NH', 'NJ',
   // 'NM', 'NY', 'NC', 'ND', 'OH', 'OK', 'OR',
   // 'PA', 'RI', 'SC', 'SD', 'TN', 'TX', 'UT', 'VT',
@@ -33,23 +32,12 @@ console.log('Length:', states.length);
 
 console.log(__dirname);
 
-let throttle = new Throttle(
-//   {
-//   // active: true,
-//   // rate: 50,
-//   // ratePer: 1000,
-//   // concurrent: 1,
-// }
-);
-  // .on('received', (req) => req);
-
 Promise.all(states.map(stateAbbr => {
   return superagent.get(apiURL)
     .set('Content-Type', 'application/json')
     .query({ app_id: CHARITY_APP_ID })
     .query({ app_key: CHARITY_APP_KEY })
     .query({ state: stateAbbr, pageNum: 1, pageSize: 100, rated: true })
-    // .use(throttle.plugin(apiURL))
     .then(charities => {
       return charities.body.map(charity => {
         let address = charity.mailingAddress;
