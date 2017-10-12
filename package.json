@@ -35,7 +35,8 @@
     "faker": "^4.1.0",
     "jest": "^21.2.1",
     "nodemon": "^1.12.1",
-    "superagent": "^3.6.3"
+    "superagent": "^3.6.3",
+    "superagent-throttle": "^0.2.5"
   },
   "dependencies": {
     "aws-sdk": "^2.130.0",
