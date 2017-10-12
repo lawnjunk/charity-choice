@@ -33,12 +33,15 @@ console.log('Length:', states.length);
 
 console.log(__dirname);
 
-let throttle = new Throttle({
-  active: true,
-  rate: 50,
-  ratePer: 1000,
-  concurrent: 1,
-});
+let throttle = new Throttle(
+//   {
+//   // active: true,
+//   // rate: 50,
+//   // ratePer: 1000,
+//   // concurrent: 1,
+// }
+);
+  // .on('received', (req) => req);
 
 Promise.all(states.map(stateAbbr => {
   return superagent.get(apiURL)
@@ -46,7 +49,7 @@ Promise.all(states.map(stateAbbr => {
     .query({ app_id: CHARITY_APP_ID })
     .query({ app_key: CHARITY_APP_KEY })
     .query({ state: stateAbbr, pageNum: 1, pageSize: 100, rated: true })
-    // .use(throttle.plugin())
+    // .use(throttle.plugin(apiURL))
     .then(charities => {
       return charities.body.map(charity => {
         let address = charity.mailingAddress;
