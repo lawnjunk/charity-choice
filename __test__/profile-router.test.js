@@ -176,6 +176,45 @@ describe('/profiles', () => {
             });
         });
     });
+
+    test('GET /profiles 200 page should be NaN', () => {
+      let token;
+      return profileMock.create()
+        .then(mock => {
+          token = mock.tempAccount.token;
+          return superagent.get(`${apiURL}/profiles?page=wedrfgh`)
+          .set('Authorization', `Bearer ${token}`);
+        })
+        .then(res => {
+          expect(res.status).toEqual(200);
+        });
+    });
+
+    test('GET /profiles 200 page should be less than zero', () => {
+      let token ;
+      return profileMock.create()
+        .then(mock => {
+          token = mock.tempAccount.token;
+          return superagent.get(`${apiURL}/profiles?page=-1`)
+            .set('Authorization', `Bearer ${token}`);
+        })
+        .then(res => {
+          expect(res.status).toEqual(200);
+        });
+    });
+
+    test('200 page should be less than zero', () => {
+      let token;
+      return profileMock.create()
+        .then(mock => {
+          token = mock.tempAccount.token;
+          return superagent.get(`${apiURL}/profiles?page=1`)
+            .set('Authorization', `Bearer ${token}`);
+        })
+        .then(res => {
+          expect(res.status).toEqual(200);
+        });
+    });
   });
 
   describe('PUT /profiles/:id', () => {
