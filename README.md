@@ -43,6 +43,16 @@ Charity-tracker. Ability to find charities, save one or more charities to Favori
 
 * * *
 
+### `/favorites`
+**Bearer Auth**
+
+* * *
+
+### `/donations`
+**Bearer Auth**
+
+* * *
+
 ## Scripts:
 ##### `npm start`
 ##### `npm run dbon`
