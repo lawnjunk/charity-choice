@@ -33,7 +33,6 @@ describe('/donations', () => {
             .send({
               amount: 50,
               inHonorOf: 'Helen Hanson',
-              profile: tempProfile.profile._id,
               charity: tempCharity._id,
             });
         })
@@ -41,8 +40,8 @@ describe('/donations', () => {
           expect(response.status).toEqual(200);
           expect(response.body.amount).toEqual(50);
           expect(response.body.inHonorOf).toEqual('Helen Hanson');
-          expect(response.body.profile).toEqual(tempProfile.profile._id.toString());
           expect(response.body.charity).toEqual(tempCharity._id.toString());
+          expect(response.body.profile).toEqual(tempProfile.profile._id.toString());
         });
     });
 
@@ -60,7 +59,6 @@ describe('/donations', () => {
             .set('Authorization', `Bearer ${tempProfile.tempAccount.token}`)
             .send({
               inHonorOf: 'Helen Hanson',
-              profile: tempProfile.profile._id,
               charity: tempCharity._id,
             });
         })
@@ -70,12 +68,31 @@ describe('/donations', () => {
         });
     });
 
-    test('401 due to bad token', () => {
+    test('400 due to missing charity', () => {
       let tempProfile;
-      let tempCharity;
       return profileMock.create()
         .then(mock => {
           tempProfile = mock;
+          return charityMock.create();
+        })
+        .then(() => {
+          return superagent.post(`${apiURL}/donations`)
+            .set('Authorization', `Bearer ${tempProfile.tempAccount.token}`)
+            .send({
+              amount: 50,
+              inHonorOf: 'Helen Hanson',
+            });
+        })
+        .then(Promise.reject)
+        .catch(response => {
+          expect(response.status).toEqual(400);
+        });
+    });
+
+    test('401 due to bad token', () => {
+      let tempCharity;
+      return profileMock.create()
+        .then(() => {
           return charityMock.create();
         })
         .then(mock => {
@@ -85,8 +102,6 @@ describe('/donations', () => {
             .send({
               amount: 50,
               inHonorOf: 'Helen Hanson',
-              account: tempProfile.tempAccount.account,
-              profile: tempProfile.profile._id,
               charity: tempCharity._id,
             });
         })

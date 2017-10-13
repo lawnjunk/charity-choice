@@ -68,6 +68,21 @@ describe('/profiles', () => {
         });
     });
 
+    test('404 Profile not found', () => {
+      let tempAccount;
+      return accountMock.create('1233')
+        .then(mock => {
+          tempAccount = mock;
+          return superagent.post(`${apiURL}/badProfile/avatar`)
+          .set('Authorization', `Bearer ${tempAccount.token}`)
+
+        })
+        .then(Promise.reject)
+        .catch(response => {
+          expect(response.status).toEqual(404);
+        })
+    })
+
     test('401 should return unauthorized', () => {
       return superagent.post(`${apiURL}/profiles`)
         .set('Authorization', `Bad Token`)

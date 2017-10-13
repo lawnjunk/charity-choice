@@ -5,7 +5,11 @@ Charity-tracker. Ability to find charities, save one or more charities to Favori
 
 ## Group Members:
 
-[Stuart Kershaw](https://github.com/stuartkershaw)
+ [Stuart Kershaw](https://github.com/stuartkershaw)  
+ [Mark Hangarter](https://github.com/Mackoyokcam)  
+ [Ron Barrantes](https://github.com/ronbarrantes)  
+ [Katherine Hanson](https://github.com/KatherineHanson)  
+ [Christina Thomas](https://github.com/Penssake)  
 
 ## Routes:
 
@@ -68,8 +72,8 @@ Charity-tracker. Ability to find charities, save one or more charities to Favori
 * * *
 
 ## Scripts:
-##### `npm start`
 ##### `npm run dbon`
+##### `npm start`
 
 * * *
 
