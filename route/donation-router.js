@@ -10,7 +10,7 @@ let fuzzy = (filterTerm) => new RegExp('.*' + filterTerm.toLowerCase().split('')
 module.exports = new Router()
   .post('/donations', bearerAuth, (req, res, next) => {
     if(!req.body.amount || !req.body.profile || !req.body.charity)
-      return next(httpErrors(400, 'amnout, account, profile, and charity required'));
+      return next(httpErrors(400, 'amount, profile, and charity required'));
     return new Donation({
       ...req.body,
       amount: req.body.amount,
