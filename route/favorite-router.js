@@ -3,23 +3,31 @@
 const {Router} = require('express');
 const httpErrors = require('http-errors');
 const Favorite = require('../model/favorite.js');
+const Profile = require('../model/profile.js');
 const bearerAuth = require('../lib/bearer-auth-middleware.js');
 
 
 const favoriteRouter = module.exports = new Router();
 
 favoriteRouter.post('/favorites', bearerAuth, (req, res, next) => {
+  let profile;
 
-  if(!req.body.profile || !req.body.charity)
-    return next(httpErrors(400, 'Profile and Charity required'));
+  if(!req.body.charity)
+    return next(httpErrors(400, 'Charity required'));
 
-  Favorite.findOne(req.body)
+  Profile.findOne({account: req.account._id})
+    .then(tempProfile => {
+      profile = tempProfile;
+      return Favorite.findOne({account: req.account._id, profile: profile._id, charity: req.body.charity});
+    })
     .then(favorite => {
       if(favorite)
         return next(httpErrors(409, 'Duplicate favorite'));
+
       return new Favorite({
-        ...req.body,
+        charity: req.body.charity,
         account: req.account._id,
+        profile: profile._id,
       }).save();
     })
     .then(favorite => res.json(favorite))
