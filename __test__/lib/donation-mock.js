@@ -9,6 +9,7 @@ let create = (profile, charity) => {
     amount: Math.floor(Math.random() * 100),
     inHonorOf: faker.name.findName(),
     charity: charity._id,
+    profile: profile._id,
   }).save();
 };
 
