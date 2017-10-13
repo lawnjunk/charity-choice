@@ -33,7 +33,6 @@ describe('/donations', () => {
             .send({
               amount: 50,
               inHonorOf: 'Helen Hanson',
-              account: tempProfile.tempAccount.account,
               profile: tempProfile.profile._id,
               charity: tempCharity._id,
             });
@@ -42,7 +41,6 @@ describe('/donations', () => {
           expect(response.status).toEqual(200);
           expect(response.body.amount).toEqual(50);
           expect(response.body.inHonorOf).toEqual('Helen Hanson');
-          expect(response.body.account).toEqual(tempProfile.tempAccount.account._id.toString());
           expect(response.body.profile).toEqual(tempProfile.profile._id.toString());
           expect(response.body.charity).toEqual(tempCharity._id.toString());
         });
