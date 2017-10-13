@@ -37,6 +37,8 @@ module.exports = new Router()
 
     let donationsCache;
     Donation.find(req.query)
+      .populate('profile')
+      .populate('charity')
       .skip(page * 100)
       .limit(100)
       .then(donations => {

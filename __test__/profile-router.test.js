@@ -183,7 +183,7 @@ describe('/profiles', () => {
         .then(mock => {
           token = mock.tempAccount.token;
           return superagent.get(`${apiURL}/profiles?page=wedrfgh`)
-          .set('Authorization', `Bearer ${token}`);
+            .set('Authorization', `Bearer ${token}`);
         })
         .then(res => {
           expect(res.status).toEqual(200);

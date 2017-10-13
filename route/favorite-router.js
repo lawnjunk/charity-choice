@@ -44,6 +44,8 @@ favoriteRouter.get('/favorites', bearerAuth, (req, res, next) => {
 
   let favoritesCache;
   Favorite.find(req.query)
+    .populate('profile')
+    .populate('charity')
     .skip(page * 100)
     .limit(100)
     .then(favorites => {
