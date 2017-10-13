@@ -31,7 +31,6 @@ describe('/favorites', () => {
           return superagent.post(`${apiURL}/favorites`)
             .set('Authorization', `Bearer ${tempProfile.tempAccount.token}`)
             .send({
-              profile: tempProfile.profile._id,
               charity: tempCharity._id,
             });
         })
@@ -57,7 +56,6 @@ describe('/favorites', () => {
           return superagent.post(`${apiURL}/favorites`)
             .set('Authorization', `Bearer ${tempProfile.tempAccount.token}`)
             .send({
-              profile: tempProfile.profile._id,
               charity: tempCharity._id,
             });
         })
@@ -65,7 +63,6 @@ describe('/favorites', () => {
           return superagent.post(`${apiURL}/favorites`)
             .set('Authorization', `Bearer ${tempProfile.tempAccount.token}`)
             .send({
-              profile: tempProfile.profile._id,
               charity: tempCharity._id,
             });
         })
@@ -75,16 +72,13 @@ describe('/favorites', () => {
         });
     });
 
-    test('400 Profile and favorite required', () => {
+    test('400 Charity required', () => {
       let tempProfile;
       return profileMock.create()
         .then(mock => {
           tempProfile = mock;
           return superagent.post(`${apiURL}/favorites`)
-            .set('Authorization', `Bearer ${tempProfile.tempAccount.token}`)
-            .send({
-              profile:tempProfile.profile._id,
-            });
+            .set('Authorization', `Bearer ${tempProfile.tempAccount.token}`);
         })
         .then(Promise.reject)
         .catch(res => {
