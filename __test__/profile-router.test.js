@@ -74,14 +74,13 @@ describe('/profiles', () => {
         .then(mock => {
           tempAccount = mock;
           return superagent.post(`${apiURL}/badProfile/avatar`)
-          .set('Authorization', `Bearer ${tempAccount.token}`)
-
+            .set('Authorization', `Bearer ${tempAccount.token}`);
         })
         .then(Promise.reject)
         .catch(response => {
           expect(response.status).toEqual(404);
-        })
-    })
+        });
+    });
 
     test('401 should return unauthorized', () => {
       return superagent.post(`${apiURL}/profiles`)
