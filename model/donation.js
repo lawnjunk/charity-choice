@@ -7,6 +7,7 @@ const donationSchema = mongoose.Schema({
   inHonorOf: { type: String },
   charity: { type: mongoose.Schema.Types.ObjectId, required: true, ref: 'charity'},
   profile: { type: mongoose.Schema.Types.ObjectId, required: true, ref: 'profile'},
+  account: { type: mongoose.Schema.Types.ObjectId, required: true},
   created: {type: Date, default: () => new Date()},
 });
 

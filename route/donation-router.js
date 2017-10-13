@@ -15,6 +15,7 @@ module.exports = new Router()
       ...req.body,
       amount: req.body.amount,
       inHonorOf: req.body.inHonorOf,
+      account: req.account._id,
       profile: req.body.profile,
       charity: req.body.charity,
     }).save()
